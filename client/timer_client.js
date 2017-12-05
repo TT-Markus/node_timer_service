@@ -1,5 +1,7 @@
 var uuid = require('node-uuid');
 var redis = require('redis');
+var utils = require('../utils');
+
 var EventEmitter = require('events').EventEmitter,
     util = require('util'), queue_utils = require('../lib/queue_utils');
 
@@ -21,6 +23,7 @@ function Timer_Client(server, port, serviceName, queue_by_hour) {
         self.emit('ready');
     });
     redis_client.on("error", function(err) {
+	utils.logError(err.stack || err);
         self.emit('error');
     });
     this.queue_by_hour = false;
